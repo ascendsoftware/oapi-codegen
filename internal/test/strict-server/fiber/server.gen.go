@@ -94,7 +94,7 @@ func (siw *ServerInterfaceWrapper) ReservedGoKeywordParameters(c *fiber.Ctx) err
 
 	err = runtime.BindStyledParameter("simple", false, "type", c.Params("type"), &pType)
 	if err != nil {
-		return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("Invalid format for parameter type: %w", err).Error())
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("invalid format for parameter type: %w", err).Error())
 	}
 
 	return siw.Handler.ReservedGoKeywordParameters(c, pType)
@@ -146,7 +146,7 @@ func (siw *ServerInterfaceWrapper) HeadersExample(c *fiber.Ctx) error {
 
 		err = runtime.BindStyledParameterWithLocation("simple", false, "header1", runtime.ParamLocationHeader, value, &Header1)
 		if err != nil {
-			return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("Invalid format for parameter header1: %w", err).Error())
+			return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("invalid format for parameter header1: %w", err).Error())
 		}
 
 		params.Header1 = Header1
@@ -162,7 +162,7 @@ func (siw *ServerInterfaceWrapper) HeadersExample(c *fiber.Ctx) error {
 
 		err = runtime.BindStyledParameterWithLocation("simple", false, "header2", runtime.ParamLocationHeader, value, &Header2)
 		if err != nil {
-			return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("Invalid format for parameter header2: %w", err).Error())
+			return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("invalid format for parameter header2: %w", err).Error())
 		}
 
 		params.Header2 = &Header2

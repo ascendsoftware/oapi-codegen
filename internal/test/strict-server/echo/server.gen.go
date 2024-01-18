@@ -99,7 +99,7 @@ func (w *ServerInterfaceWrapper) ReservedGoKeywordParameters(ctx echo.Context) e
 
 	err = runtime.BindStyledParameterWithLocation("simple", false, "type", runtime.ParamLocationPath, ctx.Param("type"), &pType)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter type: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("invalid format for parameter type: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshaled arguments
@@ -170,7 +170,7 @@ func (w *ServerInterfaceWrapper) HeadersExample(ctx echo.Context) error {
 
 		err = runtime.BindStyledParameterWithLocation("simple", false, "header1", runtime.ParamLocationHeader, valueList[0], &Header1)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter header1: %s", err))
+			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("invalid format for parameter header1: %s", err))
 		}
 
 		params.Header1 = Header1
@@ -187,7 +187,7 @@ func (w *ServerInterfaceWrapper) HeadersExample(ctx echo.Context) error {
 
 		err = runtime.BindStyledParameterWithLocation("simple", false, "header2", runtime.ParamLocationHeader, valueList[0], &Header2)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter header2: %s", err))
+			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("invalid format for parameter header2: %s", err))
 		}
 
 		params.Header2 = &Header2

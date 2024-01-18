@@ -1447,7 +1447,7 @@ func (w *ServerInterfaceWrapper) Issue209(ctx echo.Context) error {
 
 	err = runtime.BindStyledParameterWithLocation("simple", false, "str", runtime.ParamLocationPath, ctx.Param("str"), &str)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter str: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("invalid format for parameter str: %s", err))
 	}
 
 	ctx.Set(Access_tokenScopes, []string{})
@@ -1465,7 +1465,7 @@ func (w *ServerInterfaceWrapper) Issue30(ctx echo.Context) error {
 
 	err = runtime.BindStyledParameterWithLocation("simple", false, "fallthrough", runtime.ParamLocationPath, ctx.Param("fallthrough"), &pFallthrough)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter fallthrough: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("invalid format for parameter fallthrough: %s", err))
 	}
 
 	ctx.Set(Access_tokenScopes, []string{})
@@ -1494,7 +1494,7 @@ func (w *ServerInterfaceWrapper) Issue41(ctx echo.Context) error {
 
 	err = runtime.BindStyledParameterWithLocation("simple", false, "1param", runtime.ParamLocationPath, ctx.Param("1param"), &n1param)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter 1param: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("invalid format for parameter 1param: %s", err))
 	}
 
 	ctx.Set(Access_tokenScopes, []string{})
@@ -1516,7 +1516,7 @@ func (w *ServerInterfaceWrapper) Issue9(ctx echo.Context) error {
 
 	err = runtime.BindQueryParameter("form", true, true, "foo", ctx.QueryParams(), &params.Foo)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter foo: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("invalid format for parameter foo: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshaled arguments

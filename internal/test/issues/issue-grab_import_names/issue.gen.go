@@ -306,7 +306,7 @@ func (w *ServerInterfaceWrapper) GetFoo(ctx echo.Context) error {
 
 		err = runtime.BindStyledParameterWithLocation("simple", false, "Foo", runtime.ParamLocationHeader, valueList[0], &Foo)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter Foo: %s", err))
+			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("invalid format for parameter Foo: %s", err))
 		}
 
 		params.Foo = &Foo
@@ -321,7 +321,7 @@ func (w *ServerInterfaceWrapper) GetFoo(ctx echo.Context) error {
 
 		err = runtime.BindStyledParameterWithLocation("simple", false, "Bar", runtime.ParamLocationHeader, valueList[0], &Bar)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter Bar: %s", err))
+			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("invalid format for parameter Bar: %s", err))
 		}
 
 		params.Bar = &Bar
