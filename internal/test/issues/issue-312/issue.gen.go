@@ -442,7 +442,7 @@ func (w *ServerInterfaceWrapper) GetPet(ctx echo.Context) error {
 
 	err = runtime.BindStyledParameterWithLocation("simple", false, "petId", runtime.ParamLocationPath, ctx.Param("petId"), &petId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter petId: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("invalid format for parameter petId: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshaled arguments

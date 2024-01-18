@@ -117,7 +117,7 @@ func (siw *ServerInterfaceWrapper) ReservedGoKeywordParameters(c *gin.Context) {
 
 	err = runtime.BindStyledParameter("simple", false, "type", c.Param("type"), &pType)
 	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter type: %w", err), http.StatusBadRequest)
+		siw.ErrorHandler(c, fmt.Errorf("invalid format for parameter type: %w", err), http.StatusBadRequest)
 		return
 	}
 
@@ -217,7 +217,7 @@ func (siw *ServerInterfaceWrapper) HeadersExample(c *gin.Context) {
 
 		err = runtime.BindStyledParameterWithLocation("simple", false, "header1", runtime.ParamLocationHeader, valueList[0], &Header1)
 		if err != nil {
-			siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter header1: %w", err), http.StatusBadRequest)
+			siw.ErrorHandler(c, fmt.Errorf("invalid format for parameter header1: %w", err), http.StatusBadRequest)
 			return
 		}
 
@@ -239,7 +239,7 @@ func (siw *ServerInterfaceWrapper) HeadersExample(c *gin.Context) {
 
 		err = runtime.BindStyledParameterWithLocation("simple", false, "header2", runtime.ParamLocationHeader, valueList[0], &Header2)
 		if err != nil {
-			siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter header2: %w", err), http.StatusBadRequest)
+			siw.ErrorHandler(c, fmt.Errorf("invalid format for parameter header2: %w", err), http.StatusBadRequest)
 			return
 		}
 
