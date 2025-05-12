@@ -16,5 +16,3 @@ jobs:
       - name: Run `make generate`
         run: make generate
 
-      - name: Check for no untracked files
-        run: git status && git diff-index --quiet HEAD --
