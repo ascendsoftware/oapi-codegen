@@ -1,3 +1,16 @@
+## Ascend Notes
+This repo was forked from the upstream because the XML support was insufficient for the Payments project, and integration to Workday.  See the commit history for more details.
+
+## Ascend Installation
+To install the Ascend version of oapi-codgen just execute the following command:
+
+`go install github.com/ascendsoftware/oapi-codegen/cmd/oapi-codegen@v1.0.3`
+
+where `v1.0.3` is the Github Tag version to use, so please verify which version is the latest before installation.
+
+---
+
+
 ## OpenAPI Client and Server Code Generator
 
 ⚠️ This README may be for the latest development version, which may contain
