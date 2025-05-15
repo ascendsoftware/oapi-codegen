@@ -23,3 +23,29 @@ for _, m := range options.Middlewares {
 router.{{.Method | lower | title }}(options.BaseURL+"{{.Path | swaggerUriToFiberUri}}", wrapper.{{.OperationId}})
 {{end}}
 }
+
+// RegisterHandlerVersions creates http.Handler with routing matching OpenAPI spec.
+func RegisterHandlerVersions(app *fiber.App,router fiber.Router, si ServerInterface) {
+    var wrapper = ServerInterfaceWrapper{
+        Handler: si,
+    }
+
+    var apiHandlers = map[string]map[string]fiber.Handler{
+    {{range .}}
+        "{{.Path}}":{
+            "v1":wrapper.{{.OperationId}},
+            "v2":wrapper.{{.OperationId}},
+        },
+    {{end}}
+    }
+	for route, versions := range apiHandlers {
+		app.Get(route, func(c *fiber.Ctx) error {
+			ct := c.Get("Content-Type")
+			version := fibermid.ExtractVersion(ct)
+			if handler, exists := versions[version]; exists {
+				return handler(c)
+			}
+			return c.Status(fiber.StatusBadRequest).SendString("Invalid API version")
+		})
+	}
+}
