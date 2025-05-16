@@ -24,12 +24,12 @@ router.{{.Method | lower | title }}(options.BaseURL+"{{.Path | swaggerUriToFiber
 {{end}}
 }
 
-// RegisterHandlers creates http.Handler with routing matching OpenAPI spec.
+// RegisterHandlerVersions - creates http.Handler with routing matching OpenAPI spec.
 func RegisterHandlerVersions(router fiber.Router, si ServerInterface, version string) map[string]map[string]fiber.Handler {
   return RegisterHandlerVersionsWithOptions(router, si, version, FiberServerOptions{})
 }
 
-// RegisterHandlerVersions creates http.Handler with routing matching OpenAPI spec.
+// RegisterHandlerVersionsWithOptions - creates http.Handler with routing matching OpenAPI spec.
 func RegisterHandlerVersionsWithOptions(
   router fiber.Router, 
   si ServerInterface, 
