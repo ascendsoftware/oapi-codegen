@@ -27,7 +27,7 @@ func (siw *ServerInterfaceWrapper) {{$opid}}(c *fiber.Ctx) error {
   }
   {{end}}
   {{if .IsStyled}}
-  err = runtime.BindStyledParameterWithOptions("{{.Style}}", "{{.ParamName}}", c.Params("{{.ParamName}}"), &{{$varName}}, runtime.BindStyledParameterOptions{Explode: {{.Explode}}, Required: {{.Required}}})
+  err = runtime.BindStyledParameter("{{.Style}}",{{.Explode}}, "{{.ParamName}}", c.Params("{{.ParamName}}"), &{{$varName}})
   if err != nil {
     return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("invalid format for parameter {{.ParamName}}: %w", err).Error())
   }
@@ -59,7 +59,7 @@ func (siw *ServerInterfaceWrapper) {{$opid}}(c *fiber.Ctx) error {
         if paramValue := c.Query("{{.ParamName}}"); paramValue != "" {
 
         {{if .IsPassThrough}}
-          params.{{.GoName}} = {{if .HasOptionalPointer}}&{{end}}paramValue
+          params.{{.GoName}} = {{if not .Required}}&{{end}}paramValue
         {{end}}
 
         {{if .IsJson}}
@@ -69,10 +69,10 @@ func (siw *ServerInterfaceWrapper) {{$opid}}(c *fiber.Ctx) error {
             return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("Error unmarshaling parameter '{{.ParamName}}' as JSON: %w", err).Error())
           }
 
-          params.{{.GoName}} = {{if .HasOptionalPointer}}&{{end}}value
+          params.{{.GoName}} = {{if not .Required}}&{{end}}value
         {{end}}
         }{{if .Required}} else {
-            err = fmt.Errorf("Query argument {{.ParamName}} is required, but not found")
+            err = fmt.Errorf("query parameter {{.ParamName}} is required, but not found")
             c.Status(fiber.StatusBadRequest).JSON(err)
             return err
         }{{end}}
@@ -93,7 +93,7 @@ func (siw *ServerInterfaceWrapper) {{$opid}}(c *fiber.Ctx) error {
           var {{.GoName}} {{.TypeDef}}
 
         {{if .IsPassThrough}}
-          params.{{.GoName}} = {{if .HasOptionalPointer}}&{{end}}value
+          params.{{.GoName}} = {{if not .Required}}&{{end}}value
         {{end}}
 
         {{if .IsJson}}
@@ -104,16 +104,16 @@ func (siw *ServerInterfaceWrapper) {{$opid}}(c *fiber.Ctx) error {
         {{end}}
 
         {{if .IsStyled}}
-          err = runtime.BindStyledParameterWithOptions("{{.Style}}", "{{.ParamName}}", value, &{{.GoName}}, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: {{.Explode}}, Required: {{.Required}}})
+          err = runtime.BindStyledParameterWithLocation("{{.Style}}",{{.Explode}}, "{{.ParamName}}", runtime.ParamLocationHeader, value[0], &{{.GoName}})
           if err != nil {
             return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("invalid format for parameter {{.ParamName}}: %w", err).Error())
           }
         {{end}}
 
-          params.{{.GoName}} = {{if .HasOptionalPointer}}&{{end}}{{.GoName}}
+          params.{{.GoName}} = {{if not .Required}}&{{end}}{{.GoName}}
 
         } {{if .Required}}else {
-            err = fmt.Errorf("Header parameter {{.ParamName}} is required, but not found: %w", err)
+            err = fmt.Errorf("header parameter '{{.ParamName}}' is required, but not found")
             return fiber.NewError(fiber.StatusBadRequest, err.Error())
         }{{end}}
 
@@ -126,7 +126,7 @@ func (siw *ServerInterfaceWrapper) {{$opid}}(c *fiber.Ctx) error {
       if cookie = c.Cookies("{{.ParamName}}"); cookie == "" {
 
       {{- if .IsPassThrough}}
-        params.{{.GoName}} = {{if .HasOptionalPointer}}}&{{end}}cookie
+        params.{{.GoName}} = {{if not .Required}}&{{end}}cookie
       {{end}}
 
       {{- if .IsJson}}
@@ -142,22 +142,22 @@ func (siw *ServerInterfaceWrapper) {{$opid}}(c *fiber.Ctx) error {
           return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("Error unmarshaling parameter '{{.ParamName}}' as JSON: %w", err).Error())
         }
 
-        params.{{.GoName}} = {{if .HasOptionalPointer}}&{{end}}value
+        params.{{.GoName}} = {{if not .Required}}&{{end}}value
       {{end}}
 
       {{- if .IsStyled}}
         var value {{.TypeDef}}
-        err = runtime.BindStyledParameterWithOptions("simple", "{{.ParamName}}", cookie, &value, runtime.BindStyledParameterOptions{Explode: {{.Explode}}, Required: {{.Required}}})
+        err = runtime.BindStyledParameter("simple",{{.Explode}}, "{{.ParamName}}", cookie, &value)
         if err != nil {
           return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("invalid format for parameter {{.ParamName}}: %w", err).Error())
         }
-        params.{{.GoName}} = {{if .HasOptionalPointer}}&{{end}}value
+        params.{{.GoName}} = {{if not .Required}}&{{end}}value
       {{end}}
 
       }
 
       {{- if .Required}} else {
-        err = fmt.Errorf("Query argument {{.ParamName}} is required, but not found")
+        err = fmt.Errorf("query parameter {{.ParamName}} is required, but not found")
         return fiber.NewError(fiber.StatusBadRequest, err.Error())
       }
       {{- end}}
