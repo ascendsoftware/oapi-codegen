@@ -144,7 +144,7 @@ func (siw *ServerInterfaceWrapper) HeadersExample(c *fiber.Ctx) error {
 	if value, found := headers[http.CanonicalHeaderKey("header1")]; found {
 		var Header1 string
 
-		err = runtime.BindStyledParameterWithLocation("simple", false, "header1", runtime.ParamLocationHeader, value, &Header1)
+		err = runtime.BindStyledParameterWithLocation("simple", false, "header1", runtime.ParamLocationHeader, value[0], &Header1)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("invalid format for parameter header1: %w", err).Error())
 		}
@@ -160,7 +160,7 @@ func (siw *ServerInterfaceWrapper) HeadersExample(c *fiber.Ctx) error {
 	if value, found := headers[http.CanonicalHeaderKey("header2")]; found {
 		var Header2 int
 
-		err = runtime.BindStyledParameterWithLocation("simple", false, "header2", runtime.ParamLocationHeader, value, &Header2)
+		err = runtime.BindStyledParameterWithLocation("simple", false, "header2", runtime.ParamLocationHeader, value[0], &Header2)
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("invalid format for parameter header2: %w", err).Error())
 		}
