@@ -25,8 +25,12 @@ router.{{.Method | lower | title }}(options.BaseURL+"{{.Path | swaggerUriToFiber
 }
 
 // RegisterHandlerVersions - creates http.Handler with routing matching OpenAPI spec.
-func RegisterHandlerVersions(router fiber.Router, si ServerInterface, version string) map[string]map[string]fiber.Handler {
-  return RegisterHandlerVersionsWithOptions(router, si, version, FiberServerOptions{})
+func RegisterHandlerVersions(
+     router fiber.Router, 
+     si ServerInterface, 
+     version string,
+     apiHandlers map[string]map[string]fiber.Handler) map[string]map[string]fiber.Handler {
+  return RegisterHandlerVersionsWithOptions(router, si, version, FiberServerOptions{}, apiHandlers)
 }
 
 // RegisterHandlerVersionsWithOptions - creates http.Handler with routing matching OpenAPI spec.
@@ -34,7 +38,8 @@ func RegisterHandlerVersionsWithOptions(
   router fiber.Router, 
   si ServerInterface, 
   version string, 
-  options FiberServerOptions) map[string]map[string]fiber.Handler {
+	options FiberServerOptions,
+	apiHandlers map[string]map[string]fiber.Handler) map[string]map[string]fiber.Handler {
 
     var wrapper = ServerInterfaceWrapper{
         Handler: si,
@@ -43,15 +48,17 @@ func RegisterHandlerVersionsWithOptions(
       router.Use(fiber.Handler(m))
     }
   
-    var apiHandlers = map[string]map[string]fiber.Handler{
-    {{range .}}
-        fmt.Sprintf("/%s{{.Path}}", version): {
-          fmt.Sprintf("/%s{{.Path}}", version): wrapper.{{.OperationId}},
-        },
-        fmt.Sprintf("/%s{{.Path}}", fibermid.LatestVersion): {
-          fmt.Sprintf("/%s{{.Path}}", fibermid.LatestVersion): wrapper.{{.OperationId}},
-        },
-    {{end}}
+    if apiHandlers == nil {
+      apiHandlers = make(map[string]map[string]fiber.Handler)
     }
+    {{range .}}
+    // {{.SummaryAsComment }}
+    apiHandlers[fmt.Sprintf("/%s{{.Path}}", version)] = map[string]fiber.Handler{
+      fmt.Sprintf("/%s{{.Path}}", version): wrapper.{{.OperationId}},
+    }
+    apiHandlers[fmt.Sprintf("/%s{{.Path}}", fibermid.LatestVersion)] = map[string]fiber.Handler{
+      fmt.Sprintf("/%s{{.Path}}", fibermid.LatestVersion): wrapper.{{.OperationId}},
+    }
+    {{end}}
     return apiHandlers
 }
