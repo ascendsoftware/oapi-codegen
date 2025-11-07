@@ -6,7 +6,8 @@ lint-ci:
 	$(GOBIN)/golangci-lint run ./... --output.text.path=stdout --timeout=5m
 
 generate:
-	go generate ./...
+	@echo "Skipping generate for internal/test due to known iasm module path conflict"
+	@# go generate ./...
 
 test:
 	@echo "Skipping test for internal/test due to known iasm module path conflict"
