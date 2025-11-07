@@ -15,8 +15,8 @@ import (
 	"path"
 	"strings"
 
-	"github.com/oapi-codegen/runtime"
 	"github.com/getkin/kin-openapi/openapi3"
+	"github.com/oapi-codegen/runtime"
 )
 
 // Error defines model for Error.
