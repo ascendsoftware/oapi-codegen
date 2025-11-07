@@ -51,14 +51,28 @@ func RegisterHandlerVersionsWithOptions(
     if apiHandlers == nil {
       apiHandlers = make(map[string]map[string]fiber.Handler)
     }
+    {{$lastPath := ""}}
+    var versionedPath, latestPath string
     {{range .}}
-    {{.SummaryAsComment }}
-    apiHandlers[fmt.Sprintf("/%s{{.Path}}", version)] = map[string]fiber.Handler{
-      fmt.Sprintf("/%s{{.Path}}", version): wrapper.{{.OperationId}},
+    {{$currentPath := .Path | swaggerUriToFiberUri}}
+    {{if ne $lastPath $currentPath}}
+    {{if ne $lastPath ""}}
+
+    {{end}}
+    // {{.Path}}
+    versionedPath = "/" + version + "{{$currentPath}}"
+    if apiHandlers[versionedPath] == nil {
+        apiHandlers[versionedPath] = make(map[string]fiber.Handler)
     }
-    apiHandlers[fmt.Sprintf("/%s{{.Path}}", fibermid.LatestVersion)] = map[string]fiber.Handler{
-      fmt.Sprintf("/%s{{.Path}}", fibermid.LatestVersion): wrapper.{{.OperationId}},
+
+    latestPath = "/" + fibermid.LatestVersion + "{{$currentPath}}"
+    if apiHandlers[latestPath] == nil {
+        apiHandlers[latestPath] = make(map[string]fiber.Handler)
     }
+    {{$lastPath = $currentPath}}
+    {{end}}
+    apiHandlers[versionedPath]["{{.Method}}"] = wrapper.{{.OperationId}}
+    apiHandlers[latestPath]["{{.Method}}"] = wrapper.{{.OperationId}}
     {{end}}
     return apiHandlers
 }
