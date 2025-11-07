@@ -2,6 +2,8 @@ module github.com/ascendsoftware/oapi-codegen/examples/minimal-server/stdhttp
 
 go 1.23.0
 
+toolchain go1.24.10
+
 replace github.com/ascendsoftware/oapi-codegen => ../../../
 
 require github.com/ascendsoftware/oapi-codegen v0.0.0-00010101000000-000000000000

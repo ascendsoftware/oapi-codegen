@@ -2,6 +2,8 @@ module github.com/ascendsoftware/oapi-codegen
 
 go 1.23.0
 
+toolchain go1.24.10
+
 require (
 	github.com/getkin/kin-openapi v0.133.0
 	github.com/speakeasy-api/openapi-overlay v0.10.2

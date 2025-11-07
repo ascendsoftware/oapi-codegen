@@ -2,6 +2,8 @@ module github.com/ascendsoftware/oapi-codegen/internal/test/strict-server/stdhtt
 
 go 1.23.0
 
+toolchain go1.24.10
+
 replace github.com/ascendsoftware/oapi-codegen => ../../../../
 
 replace github.com/ascendsoftware/oapi-codegen/internal/test => ../..
