@@ -1,6 +1,6 @@
 module github.com/ascendsoftware/oapi-codegen/examples/minimal-server/stdhttp-go-tool
 
-go 1.23.0
+go 1.22.12
 
 replace github.com/ascendsoftware/oapi-codegen => ../../../
 

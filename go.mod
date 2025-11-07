@@ -1,6 +1,6 @@
 module github.com/ascendsoftware/oapi-codegen
 
-go 1.23.0
+go 1.22.12
 
 require (
 	github.com/getkin/kin-openapi v0.133.0
