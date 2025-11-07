@@ -1,6 +1,6 @@
 module github.com/ascendsoftware/oapi-codegen/examples/extensions/xomitzero
 
-go 1.22.12
+go 1.23.0
 
 replace github.com/ascendsoftware/oapi-codegen => ../../../
 
